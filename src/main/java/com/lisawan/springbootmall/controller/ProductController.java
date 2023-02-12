@@ -29,11 +29,11 @@ public class ProductController {
         }
     }
 
-
+    //新增某一商品數據
     @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductRequest productRequest){
 
-        System.out.println(productRequest.getProductName());
+//        System.out.println(productRequest.getProductName());
 
         Integer productId = productService.createProduct(productRequest);
 
@@ -41,4 +41,27 @@ public class ProductController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
+
+    //更新某一商品數據
+    @PutMapping("/products/{productId}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Integer productId,
+                                                 @RequestBody @Valid ProductRequest productRequest){
+
+        //檢查 product 是否存在
+        Product product = productService.getProductById(productId);
+        if (product == null) {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        }
+
+        //修改商品的數據
+        productService.updateProduct(productId,productRequest);
+
+        Product updateProduct = productService.getProductById(productId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(updateProduct);
+
+    }
+
+
 }
