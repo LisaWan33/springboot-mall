@@ -17,6 +17,12 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao productDao;
 
     @Override
+    public Integer countProduct(ProductQueryParams productQueryParams) {
+        return productDao.countProduct(productQueryParams);
+    }
+
+
+    @Override
     public List<Product> getProducts(ProductQueryParams productQueryParams) {
         return productDao.getProducts(productQueryParams);
 
@@ -41,4 +47,6 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProductById(Integer productId) {
         productDao.deleteProduct(productId);
     }
+
+
 }
