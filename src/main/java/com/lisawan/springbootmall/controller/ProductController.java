@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class ProductController {
@@ -16,8 +17,20 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    //查詢所有商品類表
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> getproducts(){
 
-    //取得某一商品數據
+       List<Product> productList = productService.getProducts();
+
+       return ResponseEntity.status(HttpStatus.OK).body(productList);
+
+    }
+
+
+
+
+    //查詢單個商品數據
     @GetMapping("/products/{productId}")
     public ResponseEntity<Product> getProduct(@PathVariable Integer productId){
         Product product = productService.getProductById(productId);
@@ -29,7 +42,7 @@ public class ProductController {
         }
     }
 
-    //新增某一商品數據
+    //新增單個商品數據
     @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductRequest productRequest){
 
@@ -42,7 +55,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
-    //更新某一商品數據
+    //更新單個商品數據
     @PutMapping("/products/{productId}")
     public ResponseEntity<Product> updateProduct(@PathVariable Integer productId,
                                                  @RequestBody @Valid ProductRequest productRequest){
@@ -63,7 +76,7 @@ public class ProductController {
 
     }
 
-    //刪除某一商品數據
+    //刪除單個商品數據
     //商品存在，成功刪掉；商品本就不存在
     @DeleteMapping("/products/{productId}")
     public ResponseEntity<?> deleteProduct(@PathVariable Integer productId){
