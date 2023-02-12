@@ -67,7 +67,6 @@ public class ProductDaoImpl implements ProductDao {
 
         int productId = keyHolder.getKey().intValue();
 
-
         return productId;
     }
 
@@ -82,7 +81,6 @@ public class ProductDaoImpl implements ProductDao {
 
         map.put("productId",productId);
         map.put("productName",productRequest.getProductName());
-
         map.put("category",productRequest.getCategory().toString());
         map.put("imageUrl",productRequest.getImageUrl());
         map.put("price",productRequest.getPrice());
@@ -91,6 +89,17 @@ public class ProductDaoImpl implements ProductDao {
         Date now = new Date();
 
         map.put("lastModifiedDate",now);
+
+        namedParameterJdbcTemplate.update(sql,map);
+    }
+
+
+    @Override
+    public void deleteProduct(Integer productId) {
+        String sql="DELETE FROM product WHERE product_id=:productId";
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("productId",productId);
 
         namedParameterJdbcTemplate.update(sql,map);
     }
